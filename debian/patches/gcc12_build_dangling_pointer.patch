@@ -8,7 +8,7 @@ Date:   Mon Mar 28 15:00:52 2022 +0800
 
 diff --git a/util/mkimage.c b/util/mkimage.c
 index a26cf76f7..58c199f7c 100644
---- a/util/mkimage	2022-12-11 15:41:56.717934782 +0000
+--- a/util/mkimage.c	2022-12-11 15:41:56.717934782 +0000
 +++ b/util/mkimage.c	2022-12-11 15:43:05.318432532 +0000
 @@ -1383,6 +1383,10 @@
  	    section = (struct grub_pe32_section_table *)(o64 + 1);
