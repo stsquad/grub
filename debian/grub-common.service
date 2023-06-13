@@ -1,6 +1,6 @@
 [Unit]
 Description=Record successful boot for GRUB
-After=sleep.target
+After=suspend.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target
 ConditionPathExists=/boot/grub/grub.cfg
 
 [Service]
@@ -12,4 +12,4 @@ ExecStartPost=/bin/sh -c 'if grub-editenv /boot/grub/grubenv list | grep -q init
 StandardOutput=kmsg
 
 [Install]
-WantedBy=multi-user.target sleep.target
+WantedBy=multi-user.target suspend.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target
