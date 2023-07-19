@@ -30,6 +30,13 @@ export HOST_LDFLAGS
 export TARGET_CPPFLAGS := -Wno-unused-but-set-variable
 export TARGET_LDFLAGS := -no-pie
 
+# upstream changed the tests to hard errors instead of skips when not running as root, so mark them
+# as expected failure.
+ifneq ($(shell id -u), 0)
+export DISABLE_HARD_ERRORS := 1
+export XFAIL_TESTS := ext234_test iso9660_test hfsplus_test ntfs_test reiserfs_test fat_test minixfs_test xfs_test f2fs_test nilfs2_test romfs_test exfat_test udf_test hfs_test jfs_test btrfs_test zfs_test luks1_test luks2_test grub_cmd_cryptomount
+endif
+
 # Ensure that debhelper doesn't try to set these; we need to be careful
 # about HOST_* vs. TARGET_*.
 export CPPFLAGS :=
