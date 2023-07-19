@@ -54,3 +54,5 @@ mkimage-fix-section-sizes.patch
 fs-tester-time-fail.patch
 987008-lvrename-boot-fail.patch
 grub_os-prober.patch
+secure-boot/revert-efi-fallback-to-legacy.patch
+secure-boot/efi-use-peimage-shim.patch
