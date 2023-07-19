@@ -160,7 +160,6 @@ case $platform in
     x86_64-efi|i386-efi)
 	CD_MODULES="$CD_MODULES
 	cpuid
-	linuxefi
 	play
 	"
 	;;
