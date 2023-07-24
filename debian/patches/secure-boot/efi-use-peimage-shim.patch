@@ -33,9 +33,9 @@ Signed-off-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
 Signed-off-by: Julian Andres Klode <julian.klode@canonical.com>
 ---
  grub-core/Makefile.core.def    |   7 +
- grub-core/loader/efi/peimage.c | 830 +++++++++++++++++++++++++++++++++++++++++
+ grub-core/loader/efi/peimage.c | 837 +++++++++++++++++++++++++++++++++++++++++
  include/grub/efi/peimage.h     |  24 ++
- 3 files changed, 861 insertions(+)
+ 3 files changed, 868 insertions(+)
  create mode 100644 grub-core/loader/efi/peimage.c
  create mode 100644 include/grub/efi/peimage.h
 
@@ -59,10 +59,10 @@ index d8149a4..a485af1 100644
    efi = loader/efi/fdt.c;
 diff --git a/grub-core/loader/efi/peimage.c b/grub-core/loader/efi/peimage.c
 new file mode 100644
-index 0000000..db52600
+index 0000000..e59f98c
 --- /dev/null
 +++ b/grub-core/loader/efi/peimage.c
-@@ -0,0 +1,830 @@
+@@ -0,0 +1,837 @@
 +// SPDX-License-Identifier: GPL-3.0+
 +
 +#include <grub/cache.h>
@@ -91,6 +91,7 @@ index 0000000..db52600
 +  grub_uint64_t image_base;
 +  grub_uint32_t section_alignment;
 +  grub_uint32_t image_size;
++  grub_uint32_t header_size;
 +  void *alloc_addr;
 +  grub_uint32_t alloc_pages;
 +  void *image_addr;
@@ -196,7 +197,6 @@ index 0000000..db52600
 +  struct grub_pe32_coff_header *coff_header;
 +  struct grub_pe32_optional_header *pe32_header;
 +  struct grub_pe64_optional_header *pe64_header;
-+  grub_uint32_t header_size;
 +
 +  if (info->data_size < sizeof (struct grub_dos_stub))
 +    {
@@ -243,8 +243,8 @@ index 0000000..db52600
 +      info->image_base = pe32_header->image_base;
 +      info->image_size = pe32_header->image_size;
 +      info->entry_point = (void *)(unsigned long)pe32_header->entry_addr;
-+      header_size = pe32_header->header_size;
-+      if (info->data_size < header_size)
++      info->header_size = pe32_header->header_size;
++      if (info->data_size < info->header_size)
 +	{
 +	  grub_error (GRUB_ERR_BAD_OS, "truncated image");
 +	  return GRUB_EFI_LOAD_ERROR;
@@ -264,8 +264,8 @@ index 0000000..db52600
 +      info->image_base = pe64_header->image_base;
 +      info->image_size = pe64_header->image_size;
 +      info->entry_point = (void *)(unsigned long)pe64_header->entry_addr;
-+      header_size = pe64_header->header_size;
-+      if (info->data_size < header_size)
++      info->header_size = pe64_header->header_size;
++      if (info->data_size < info->header_size)
 +	{
 +	  grub_error (GRUB_ERR_BAD_OS, "truncated image");
 +	  return GRUB_EFI_LOAD_ERROR;
@@ -333,9 +333,16 @@ index 0000000..db52600
 +  info->image_addr
 +      = (void *)(((unsigned long)info->alloc_addr + align_mask) & ~align_mask);
 +
++  grub_memcpy(info->image_addr, info->data, info->header_size);
 +  for (section = &info->section[0];
 +       section < &info->section[info->num_sections]; ++section)
 +    {
++      if (section->virtual_address < info->header_size ||
++	  section->raw_data_offset < info->header_size)
++	{
++	  grub_error (GRUB_ERR_BAD_OS, "section inside header");
++	  return GRUB_EFI_LOAD_ERROR;
++	}
 +      if (section->raw_data_offset + section->raw_data_size > info->data_size)
 +	{
 +	  grub_error (GRUB_ERR_BAD_OS, "truncated image");
