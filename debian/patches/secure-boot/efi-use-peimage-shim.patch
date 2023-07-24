@@ -34,8 +34,8 @@ Signed-off-by: Julian Andres Klode <julian.klode@canonical.com>
 ---
  grub-core/Makefile.core.def    |   7 +
  grub-core/loader/efi/peimage.c | 837 +++++++++++++++++++++++++++++++++++++++++
- include/grub/efi/peimage.h     |  24 ++
- 3 files changed, 868 insertions(+)
+ include/grub/efi/peimage.h     |  23 ++
+ 3 files changed, 867 insertions(+)
  create mode 100644 grub-core/loader/efi/peimage.c
  create mode 100644 include/grub/efi/peimage.h
 
@@ -59,7 +59,7 @@ index d8149a4..a485af1 100644
    efi = loader/efi/fdt.c;
 diff --git a/grub-core/loader/efi/peimage.c b/grub-core/loader/efi/peimage.c
 new file mode 100644
-index 0000000..e59f98c
+index 0000000..56528b5
 --- /dev/null
 +++ b/grub-core/loader/efi/peimage.c
 @@ -0,0 +1,837 @@
@@ -333,12 +333,12 @@ index 0000000..e59f98c
 +  info->image_addr
 +      = (void *)(((unsigned long)info->alloc_addr + align_mask) & ~align_mask);
 +
-+  grub_memcpy(info->image_addr, info->data, info->header_size);
++  grub_memcpy (info->image_addr, info->data, info->header_size);
 +  for (section = &info->section[0];
 +       section < &info->section[info->num_sections]; ++section)
 +    {
-+      if (section->virtual_address < info->header_size ||
-+	  section->raw_data_offset < info->header_size)
++      if (section->virtual_address < info->header_size
++	  || section->raw_data_offset < info->header_size)
 +	{
 +	  grub_error (GRUB_ERR_BAD_OS, "section inside header");
 +	  return GRUB_EFI_LOAD_ERROR;
@@ -902,10 +902,10 @@ index 0000000..e59f98c
 +}
 diff --git a/include/grub/efi/peimage.h b/include/grub/efi/peimage.h
 new file mode 100644
-index 0000000..8c21407
+index 0000000..8ef6579
 --- /dev/null
 +++ b/include/grub/efi/peimage.h
-@@ -0,0 +1,24 @@
+@@ -0,0 +1,23 @@
 +/* SPDX-License-Identifier: GPL-3.0+ */
 +
 +#define GRUB_PE_MAGIC "PE\0"
@@ -929,4 +929,3 @@ index 0000000..8c21407
 +  grub_uint32_t linux_arch; /* linux architecture */
 +  grub_uint32_t pe_addr;    /* offset of PE/COFF header */
 +};
-+
