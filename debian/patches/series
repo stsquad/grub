@@ -14,7 +14,6 @@ mkconfig-nonexistent-loopback.patch
 default-grub-d.patch
 blacklist-1440x900x32.patch
 mkconfig-ubuntu-distributor.patch
-mkconfig-signed-kernel.patch
 maybe-quiet.patch
 install-efi-adjust-distributor.patch
 quick-boot.patch
