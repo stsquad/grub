@@ -2,7 +2,6 @@ olpc-prefix-hack.patch
 core-in-fs.patch
 grub-legacy-0-based-partitions.patch
 disable-floppies.patch
-grub.cfg-400.patch
 gfxpayload-keep-default.patch
 install-stage2-confusion.patch
 mkconfig-loopback.patch
