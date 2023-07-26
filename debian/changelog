@@ -1,3 +1,11 @@
+grub2 (2.12~rc1-4) UNRELEASED; urgency=medium
+
+  * Update mkconfig-ubuntu-recovery.patch to respect
+    GRUB_CMDLINE_LINUX_RECOVERY from /etc/default/grub.
+    (Closes: #766530, #922425)
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Wed, 26 Jul 2023 18:19:47 +0200
+
 grub2 (2.12~rc1-3) experimental; urgency=medium
 
   * Build peimage as a module and insert into signed images

@@ -339,7 +339,7 @@ index 6a90e09..350ed25 100644
        if (auto_boot)
  	grub_menu_execute_with_fallback (menu, e, autobooted,
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index 889ef0f..0b1f520 100644
+index 11caf69..f908bd5 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -21,6 +21,7 @@ prefix="@prefix@"
