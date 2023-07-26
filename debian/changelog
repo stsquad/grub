@@ -1,5 +1,10 @@
 grub2 (2.12~rc1-4) UNRELEASED; urgency=medium
 
+  [ Julian Andres Klode ]
+  * Fix quiet boot feature
+  * Drop fs-tester-time-fail.patch, upstream
+
+  [ Felix Zielcke ]
   * Update mkconfig-ubuntu-recovery.patch to respect
     GRUB_CMDLINE_LINUX_RECOVERY from /etc/default/grub.
     (Closes: #766530, #922425)
