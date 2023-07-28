@@ -32,25 +32,30 @@ Caveats:
 Signed-off-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
 Signed-off-by: Julian Andres Klode <julian.klode@canonical.com>
 ---
- grub-core/Makefile.core.def    |   7 +
+ grub-core/Makefile.core.def    |  12 +
  grub-core/loader/efi/peimage.c | 837 +++++++++++++++++++++++++++++++++++++++++
  include/grub/efi/peimage.h     |  23 ++
- 3 files changed, 867 insertions(+)
+ 3 files changed, 872 insertions(+)
  create mode 100644 grub-core/loader/efi/peimage.c
  create mode 100644 include/grub/efi/peimage.h
 
 diff --git a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
-index d8149a4..a485af1 100644
+index d8149a4..3c65627 100644
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
-@@ -1875,6 +1875,13 @@ module = {
+@@ -1875,6 +1875,18 @@ module = {
    common = lib/cmdline.c;
  };
  
 +module = {
 +  name = peimage;
 +  efi = loader/efi/peimage.c;
-+  enable = efi;
++  enable = arm_efi;
++  enable = arm64_efi;
++  enable = i386_efi;
++  enable = x86_64_efi;
++  enable = riscv32_efi;
++  enable = riscv64_efi;
 +};
 +
 +
