@@ -1,15 +1,34 @@
-grub2 (2.12~rc1-4) UNRELEASED; urgency=medium
+grub2 (2.12~rc1-4) experimental; urgency=medium
 
   [ Julian Andres Klode ]
   * Fix quiet boot feature
   * Drop fs-tester-time-fail.patch, upstream
+  * postinst: look at /boot/grub/$target/core.efi to determine if we ran already
+  * Cherry-pick additional Ubuntu patches
+    - zstd-require-8-byte-buffer.patch: Fix for buffer size in zstd
+    - recovery-dis_ucode_ldr.patch: Pass dis_ucode_ldr to kernel for
+      recovery mode
+    - hwmatch-only-on-grub-pc-platform.patch: Only call hwmatch on grub-pc
+      (Closes: #990836)
+    - fdt-add-debug-output-to-devicetree-command.patch: Debugging output
+      for the devicetree command
+    - fdt-device-tree-fixup-protocol.patch: Support for u-boot device tree
+      fixup protocol
+    - fat-fix-listing-the-root-directory.patch: Fix listing of files with
+      0 timestamps in FAT
+    - efivar-check-that-efivarfs-is-writeable.patch: Do not hard error
+      if we cannot write the EFI variables. Some implementations, like
+      u-boot do not support writing them.
+  * Only build peimage on supported architectures
+  * debian/po: Refresh templates
 
   [ Felix Zielcke ]
   * Update mkconfig-ubuntu-recovery.patch to respect
     GRUB_CMDLINE_LINUX_RECOVERY from /etc/default/grub.
     (Closes: #766530, #922425)
+  * Strip grub-emu binary.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Wed, 26 Jul 2023 18:19:47 +0200
+ -- Julian Andres Klode <jak@debian.org>  Fri, 28 Jul 2023 14:54:14 +0200
 
 grub2 (2.12~rc1-3) experimental; urgency=medium
 
