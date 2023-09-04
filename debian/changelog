@@ -1,3 +1,15 @@
+grub2 (2.12~rc1-5) experimental; urgency=medium
+
+  [ Felix Zielcke ]
+  * Add salsa-ci.yml and disable blhc and reprotest pipelines.
+  * remove on upgrades /etc/default/grub.d/init-select.cfg. (Closes: #1042707)
+
+  [ Julian Andres Klode ]
+  * peimage: Set file_path for loaded image (LP: #2030810, #2032294)
+  * Hack up the lintian overrides for stable lintian on ftp-master
+
+ -- Julian Andres Klode <jak@debian.org>  Mon, 04 Sep 2023 14:16:12 +0200
+
 grub2 (2.12~rc1-4) experimental; urgency=medium
 
   [ Julian Andres Klode ]
