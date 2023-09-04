@@ -479,6 +479,11 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 		>> $(CURDIR)/debian/$(package_dbg)/usr/share/lintian/overrides/$(package_dbg) ; \
 	fi
 
+	# Hack up the lintian overrides for stable lintian on ftp-master
+	sed -i -e 's%\[%*%g' -e 's%\]%*%g' \
+		$(CURDIR)/debian/$(package_bin)/usr/share/lintian/overrides/* \
+		$(CURDIR)/debian/$(package_dbg)/usr/share/lintian/overrides/*
+
 	# Avoid failures later if we're building from a tree with no .po
 	# files.
 	mkdir -p debian/tmp-$(package)/usr/share/locale
