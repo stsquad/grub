@@ -1,3 +1,11 @@
+grub2 (2.12~rc1-6) experimental; urgency=medium
+
+  * Use rm_conffile instead of remove-on-upgrade.
+    This works with ftp-master's old lintian version and allows
+    easy backports
+
+ -- Julian Andres Klode <jak@debian.org>  Mon, 04 Sep 2023 16:57:55 +0200
+
 grub2 (2.12~rc1-5) experimental; urgency=medium
 
   [ Felix Zielcke ]
