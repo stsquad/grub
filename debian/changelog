@@ -1,3 +1,9 @@
+grub2 (2.12~rc1-9) unstable; urgency=medium
+
+  * Correct the Breaks to include the ~rc1 bit of the version
+
+ -- Julian Andres Klode <jak@debian.org>  Tue, 05 Sep 2023 19:13:30 +0200
+
 grub2 (2.12~rc1-8) unstable; urgency=medium
 
   * Have -bin packages Break pre-2.12 -signed packages.
