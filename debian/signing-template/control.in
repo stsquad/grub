@@ -26,3 +26,4 @@ Description: GRand Unified Bootloader, version 2 (@arch@ UEFI signed by Debian)
  .
  This package contains the binaries signed by the Debian UEFI CA to be used by
  shim-signed.
+Protected: yes
