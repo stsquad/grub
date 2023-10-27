@@ -30,9 +30,9 @@ Signed-off-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
 Signed-off-by: Julian Andres Klode <julian.klode@canonical.com>
 ---
  grub-core/Makefile.core.def    |  12 +
- grub-core/loader/efi/peimage.c | 875 +++++++++++++++++++++++++++++++++++++++++
+ grub-core/loader/efi/peimage.c | 902 +++++++++++++++++++++++++++++++++++++++++
  include/grub/efi/peimage.h     |  19 +
- 3 files changed, 906 insertions(+)
+ 3 files changed, 933 insertions(+)
  create mode 100644 grub-core/loader/efi/peimage.c
  create mode 100644 include/grub/efi/peimage.h
 
@@ -61,10 +61,10 @@ index 0b4d6b7..0411752 100644
    efi = loader/efi/fdt.c;
 diff --git a/grub-core/loader/efi/peimage.c b/grub-core/loader/efi/peimage.c
 new file mode 100644
-index 0000000..2825f85
+index 0000000..0387277
 --- /dev/null
 +++ b/grub-core/loader/efi/peimage.c
-@@ -0,0 +1,875 @@
+@@ -0,0 +1,902 @@
 +/* peimage.c - load EFI PE binaries (for Secure Boot support) */
 +
 +// SPDX-License-Identifier: GPL-3.0+
@@ -134,6 +134,10 @@ index 0000000..2825f85
 +static grub_efi_status_t (__grub_efi_api *exit_orig) (
 +    grub_efi_handle_t image_handle, grub_efi_status_t exit_status,
 +    grub_efi_uintn_t exit_data_size, grub_efi_char16_t *exit_data);
++
++// Original unload_image handler
++static grub_efi_status_t (__grub_efi_api *unload_image_orig) (
++  grub_efi_handle_t image_handle);
 +
 +/**
 + * check_machine_type() - check if the machine type matches the architecture
@@ -689,7 +693,7 @@ index 0000000..2825f85
 +}
 +
 +/**
-+ * efi_exit() - replacement for EFI_BOOT_SERVICES.Exit()
++ * exit_hook() - replacement for EFI_BOOT_SERVICES.Exit()
 + *
 + * This function is inserted into system table to trap invocations of
 + * EFI_BOOT_SERVICES.Exit(). If Exit() is called with our handle
@@ -740,6 +744,25 @@ index 0000000..2825f85
 +      grub_efi_system_table->boot_services->free_pool (exit_data);
 +    }
 +  grub_longjmp (info->jmp, 1);
++}
++
++/**
++ * unload_image_hook() - replacement for EFI_BOOT_SERVICES.UnloadImage()
++ *
++ * peimage only supports loading EFI Applications, which cannot be correctly
++ * unloaded while running.
++ *
++ * Installing this hooks prevents that from happening.
++ */
++static grub_efi_status_t __grub_efi_api
++unload_image_hook (grub_efi_handle_t image_handle)
++{
++  if (grub_efi_open_protocol (image_handle,
++         &(grub_guid_t) GRUB_PEIMAGE_MARKER_GUID,
++         GRUB_EFI_OPEN_PROTOCOL_GET_PROTOCOL))
++    return GRUB_EFI_UNSUPPORTED;
++
++  return unload_image_orig(image_handle);
 +}
 +
 +static grub_efi_status_t __grub_efi_api
@@ -927,16 +950,20 @@ index 0000000..2825f85
 +  grub_efi_register_loader (&peimage_loader);
 +  my_mod = mod;
 +
-+  // Backup exit pointer
++  // Hook exit handler
 +  exit_orig = grub_efi_system_table->boot_services->exit;
-+  // Replace exit handler
 +  grub_efi_system_table->boot_services->exit = exit_hook;
++  // Hook unload_image handler
++  unload_image_orig = grub_efi_system_table->boot_services->unload_image;
++  grub_efi_system_table->boot_services->unload_image = unload_image_hook;
 +}
 +
 +GRUB_MOD_FINI (peimage)
 +{
 +  // Restore exit handler
 +  grub_efi_system_table->boot_services->exit = exit_orig;
++  // Restore unload_image handler
++  grub_efi_system_table->boot_services->unload_image = unload_image_orig;
 +
 +  grub_efi_unregister_loader (&peimage_loader);
 +}
