@@ -80,3 +80,4 @@ grub-install-extra-removable.patch
 grub-install-removable-shim.patch
 upstream/xfs-incorrect-directory-data-boundary-check.patch
 upstream/xfs-fix-directory-extend-parsing.patch
+network/rhboot-http-message-field-size.patch
