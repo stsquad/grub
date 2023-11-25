@@ -10,7 +10,7 @@ This reverts commit 6425c12cd77ad51ad24be84c092aefacf0875089.
  3 files changed, 1 insertion(+), 31 deletions(-)
 
 diff --git a/grub-core/kern/efi/sb.c b/grub-core/kern/efi/sb.c
-index 60550a6..80cfa08 100644
+index 8d3e413..bf4e757 100644
 --- a/grub-core/kern/efi/sb.c
 +++ b/grub-core/kern/efi/sb.c
 @@ -32,8 +32,6 @@
@@ -22,7 +22,7 @@ index 60550a6..80cfa08 100644
  /*
   * Determine whether we're in secure boot mode.
   *
-@@ -217,14 +215,6 @@ grub_shim_lock_verifier_setup (void)
+@@ -225,14 +223,6 @@ grub_shim_lock_verifier_setup (void)
    /* Enforce shim_lock_verifier. */
    grub_verifier_register (&shim_lock_verifier);
  
@@ -38,7 +38,7 @@ index 60550a6..80cfa08 100644
 -  return shim_lock_enabled;
 -}
 diff --git a/grub-core/loader/efi/linux.c b/grub-core/loader/efi/linux.c
-index ab8fb35..43c4e2d 100644
+index bfbd95a..dd6ca47 100644
 --- a/grub-core/loader/efi/linux.c
 +++ b/grub-core/loader/efi/linux.c
 @@ -29,7 +29,6 @@
@@ -49,7 +49,7 @@ index ab8fb35..43c4e2d 100644
  #include <grub/i18n.h>
  #include <grub/lib/cmdline.h>
  #include <grub/verify.h>
-@@ -459,22 +458,6 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
+@@ -462,22 +461,6 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
  
    grub_dl_ref (my_mod);
  
