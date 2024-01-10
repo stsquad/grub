@@ -68,6 +68,7 @@ fat-fix-listing-the-root-directory.patch
 efivar-check-that-efivarfs-is-writeable.patch
 fdt-add-debug-output-to-devicetree-command.patch
 fdt-device-tree-fixup-protocol.patch
+extra_deps_lst.patch
 install-signed.patch
 grub-install-extra-removable.patch
 grub-install-removable-shim.patch
