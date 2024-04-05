@@ -1,4 +1,4 @@
-grub2 (2.12-2) unstable; urgency=medium
+grub2 (2.12-2~deb13u1) trixie; urgency=medium
 
   [ Mate Kukri ]
   * Revert peimage to re-use GRUB's image handle (LP: #2057679) (LP: #2054127)
@@ -12,7 +12,7 @@ grub2 (2.12-2) unstable; urgency=medium
     make sure we can revoke any downstream users of peimage that forgot to
     include the grub.peimage component if that should become necessary.
 
- -- Julian Andres Klode <jak@debian.org>  Fri, 05 Apr 2024 20:45:55 +0200
+ -- Julian Andres Klode <juliank@ubuntu.com>  Fri, 05 Apr 2024 20:50:28 +0200
 
 grub2 (2.12-1) unstable; urgency=medium
 
