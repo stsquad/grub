@@ -1,3 +1,19 @@
+grub2 (2.12-2) unstable; urgency=medium
+
+  [ Mate Kukri ]
+  * Revert peimage to re-use GRUB's image handle (LP: #2057679) (LP: #2054127)
+  * d/build-efi-images: Make sure downstream didn't remove peimage SBAT
+    entry
+  * SECURITY UPDATE: Use-after-free in peimage module [LP: #2054127]
+    - CVE-2024-2312
+
+  [ Julian Andres Klode ]
+  * Bump SBAT level to `grub.peimage,2`; and also bump `grub.debian,5` to
+    make sure we can revoke any downstream users of peimage that forgot to
+    include the grub.peimage component if that should become necessary.
+
+ -- Julian Andres Klode <jak@debian.org>  Fri, 05 Apr 2024 20:45:55 +0200
+
 grub2 (2.12-1) unstable; urgency=medium
 
   [ Mate Kukri ]
