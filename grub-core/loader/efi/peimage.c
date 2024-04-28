@@ -247,6 +247,11 @@ load_sections (struct image_info *info)
   for (section = &info->section[0];
        section < &info->section[info->num_sections]; ++section)
     {
+      if (!section->virtual_size)
+        {
+          grub_dprintf ("linux", "skipping 0 size section %s\n", section->name);
+          continue;
+        }
       if (section->virtual_address < info->header_size
 	  || (section->raw_data_size
 	      && section->raw_data_offset < info->header_size))
