@@ -1,0 +1,31 @@
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+Date: Sun, 28 Apr 2024 12:42:50 +0100
+Subject: efi: skip zero size sections in load_sections
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+These sections don't have any data so we don't need to validate them.
+Skip as manually cleaning up binaries is tricky to get right.
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ grub-core/loader/efi/peimage.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/grub-core/loader/efi/peimage.c b/grub-core/loader/efi/peimage.c
+index d3a5e31..8a2c008 100644
+--- a/grub-core/loader/efi/peimage.c
++++ b/grub-core/loader/efi/peimage.c
+@@ -247,6 +247,11 @@ load_sections (struct image_info *info)
+   for (section = &info->section[0];
+        section < &info->section[info->num_sections]; ++section)
+     {
++      if (!section->virtual_size)
++        {
++          grub_dprintf ("linux", "skipping 0 size section %s\n", section->name);
++          continue;
++        }
+       if (section->virtual_address < info->header_size
+ 	  || (section->raw_data_size
+ 	      && section->raw_data_offset < info->header_size))

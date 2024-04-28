@@ -72,3 +72,4 @@ extra_deps_lst.patch
 install-signed.patch
 grub-install-extra-removable.patch
 grub-install-removable-shim.patch
+0075-efi-skip-zero-size-sections-in-load_sections.patch

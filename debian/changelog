@@ -1,3 +1,10 @@
+grub2 (2.12-2~deb13u2~1.gbpb9c4bc) UNRELEASED; urgency=medium
+
+  [ Alex Bennée ]
+  * d/patches: add 0075-efi-skip-zero-size-sections-in-load_sections.patch
+
+ -- Alex Bennée <alex.bennee@linaro.org>  Sun, 28 Apr 2024 12:45:37 +0100
+
 grub2 (2.12-2~deb13u1) trixie; urgency=medium
 
   [ Mate Kukri ]
