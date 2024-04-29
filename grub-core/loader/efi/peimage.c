@@ -9,6 +9,7 @@
 #include <grub/efi/pe32.h>
 #include <grub/efi/peimage.h>
 #include <grub/env.h>
+#include <grub/time.h>
 #include <grub/misc.h>
 #include <grub/mm.h>
 #include <grub/setjmp.h>
@@ -762,20 +763,31 @@ do_load_image (grub_efi_boolean_t boot_policy __attribute__ ((unused)),
   };
 
   ret = check_pe_header (&info);
-  if (ret != GRUB_EFI_SUCCESS)
+  if (ret != GRUB_EFI_SUCCESS) {
+    grub_print_error ();
     goto err;
+  }
 
   ret = load_sections (&info);
-  if (ret != GRUB_EFI_SUCCESS)
+  if (ret != GRUB_EFI_SUCCESS) {
+    grub_print_error ();
     goto err;
+  }
+
 
   ret = relocate (&info);
-  if (ret != GRUB_EFI_SUCCESS)
+  if (ret != GRUB_EFI_SUCCESS) {
+    grub_print_error ();
     goto err;
+  }
+
+  grub_dprintf ("linux", "Got to end of do_load_image\n");
 
   // We are hacking this up as we go along
   *image_handle = grub_efi_image_handle;
 err:
+  grub_millisleep (1000);
+
   return ret;
 }
 
@@ -787,6 +799,7 @@ do_start_image (grub_efi_handle_t image_handle __attribute__ ((unused)),
   if (info.data == NULL)
     {
       grub_error (GRUB_ERR_BAD_OS, "image not loaded");
+      grub_millisleep (1000);
       return GRUB_EFI_LOAD_ERROR;
     }
   return start_image (&info);
