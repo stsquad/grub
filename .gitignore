@@ -1,0 +1,7 @@
+*.o
+*.mod
+*.module
+*.marker
+.deps-core
+.deps-util
+.dirstamp
